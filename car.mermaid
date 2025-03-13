@@ -1,0 +1,95 @@
+erDiagram
+    AGENCY ||--o{ CAR : provides
+    USER ||--o{ CAR : provides
+    CAR ||--|| CAR_SPECIFICATION : has
+    CAR ||--o{ CAR_FILE : has
+    CAR ||--o| USER_CAR_DETAILS : has
+    CAR ||--o| AGENCY_CAR_DETAILS : has
+
+    AGENCY {
+        string id PK
+        string name
+        string address
+        string city
+        string state
+        string postal_code
+        string phone
+        string email
+        string manager_name
+    }
+
+    USER {
+        string id PK
+        string first_name
+        string last_name
+        string email
+        string phone
+        string address
+        date date_of_birth
+        date registration_date
+        string status
+    }
+
+    CAR {
+        string id PK
+        string source_id FK "Foreign key to either Agency or User"
+        string source_type "Enum: 'agency' or 'user'"
+        string make
+        string model
+        int year
+        string color
+        string registration_number
+        decimal price "Price in local currency"
+        string status "Available, Sold, Maintenance, etc."
+    }
+
+    CAR_SPECIFICATION {
+        string id PK
+        string car_id FK
+        float engine_size
+        int horsepower
+        string fuel_type
+        string transmission
+        int number_of_doors
+        string body_type
+        float weight
+        float length
+        float width
+        float height
+    }
+
+    CAR_FILE {
+        string id PK
+        string car_id FK
+        string file_name
+        string file_path
+        string file_type
+        float file_size
+        datetime upload_date
+        string description
+    }
+
+    USER_CAR_DETAILS {
+        string id PK
+        string car_id FK "Only for cars where source_type = 'user'"
+        boolean negotiable "Whether price is negotiable"
+        string reason_for_selling
+        date listed_date
+        int owner_count "Number of previous owners"
+        string modifications "Custom modifications"
+        boolean warranty_remaining
+        string contact_preference
+    }
+
+    AGENCY_CAR_DETAILS {
+        string id PK
+        string car_id FK "Only for cars where source_type = 'agency'"
+        string stock_number
+        boolean certified_pre_owned
+        string warranty_details
+        date acquisition_date
+        string promotion_details
+        boolean financing_available
+        string vehicle_history_report
+        float dealer_markup
+    }
